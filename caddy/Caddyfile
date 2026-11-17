@@ -1,0 +1,13 @@
+anorc.ru {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:{$DESNICA_WEB_PORT:3000}
+}
+
+cms.anorc.ru {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:{$DESNICA_CMS_PORT:1337}
+}
+
+jefrry.dev {
+	reverse_proxy 127.0.0.1:{$JEFRRY_HTTP_PORT:8080}
+}

@@ -1,0 +1,26 @@
+diff --git a/apps/cms/Dockerfile b/apps/cms/Dockerfile
+--- a/apps/cms/Dockerfile
++++ b/apps/cms/Dockerfile
+@@ -19,6 +19,7 @@
+ COPY apps/cms apps/cms
+ 
+ ARG CMS_BUILD_HEAP_MB=2048
++ARG PUBLIC_URL
+ 
+ RUN NODE_OPTIONS="--max-old-space-size=${CMS_BUILD_HEAP_MB}" pnpm --filter @desnica/cms build && \
+     pnpm --filter @desnica/cms deploy --prod --legacy /prod/cms && \
+diff --git a/apps/cms/config/server.ts b/apps/cms/config/server.ts
+--- a/apps/cms/config/server.ts
++++ b/apps/cms/config/server.ts
+@@ -4,7 +4,10 @@
+   host: env('HOST', '0.0.0.0'),
+   port: env.int('PORT', 1337),
+   url: env('PUBLIC_URL', 'http://localhost:1337'),
+-  proxy: env.bool('IS_PROXIED', false),
++  proxy: {
++    koa: env.bool('IS_PROXIED', false),
++    maxIpsCount: 1,
++  },
+   app: {
+     keys: env.array('APP_KEYS')!,
+   },
